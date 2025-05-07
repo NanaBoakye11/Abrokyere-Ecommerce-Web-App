@@ -1,0 +1,17 @@
+# Node
+node_modules/
+.next/
+.env
+.env.local
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+*.egg-info/
+venv/
+
+# macOS
+.DS_Store
