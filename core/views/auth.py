@@ -2,6 +2,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 from core.serializers.customers import CustomerRegisterSerializer
 from core.services.customer_service import create_customer
 from core.serializers.auth import CustomerLoginSerializer
@@ -33,6 +34,17 @@ class LoginView(APIView):
                 serializer.validated_data['password']
             )
             if customer:
-                return Response({"message": "Login successful", "customer_id": customer.customer_id})
-            return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+                # ✅ Generate JWT token for the authenticated customer
+                refresh = RefreshToken.for_user(customer)
+                access_token = str(refresh.access_token)
+
+                customer_data = CustomerResponseSerializer(customer).data
+
+                return Response({
+                    "token": access_token,
+                    "customer": customer_data
+                }, status=status.HTTP_200_OK)
+
+            return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

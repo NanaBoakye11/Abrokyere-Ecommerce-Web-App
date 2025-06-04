@@ -19,5 +19,5 @@ from .verifications import Verifications
 from .carts import Carts
 from .drivers import Drivers
 from .subcategories import SubCategories
-
+from .products_reviews import ProductReviews
 

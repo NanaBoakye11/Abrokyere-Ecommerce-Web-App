@@ -1,6 +1,11 @@
 from rest_framework import serializers
-from core.models import Products, Categories, ProductImages
+from core.models import Products, Categories, ProductImages, ProductReviews
 
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductReviews
+        fields = ['rating', 'review_text', 'created_at']
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,6 +21,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
+    rating_average = serializers.FloatField()
+    rating_count = serializers.IntegerField()
 
     class Meta:
         model = Products
@@ -25,6 +32,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'price',
             'description',
             'prod_reviews',
+            'rating_average',    
+            'rating_count',
             'category',
             'featured',
             'product_images'

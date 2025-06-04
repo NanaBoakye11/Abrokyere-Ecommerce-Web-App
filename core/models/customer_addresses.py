@@ -8,8 +8,6 @@ class CustomerAddresses(models.Model):
     state = models.CharField(max_length=250, blank=True, null=True)
     country = models.CharField(max_length=250, blank=True, null=True)
     postal_code = models.CharField(max_length=250, blank=True, null=True)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(blank=True, null=True)
     customer_id = models.ForeignKey('Customers', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:

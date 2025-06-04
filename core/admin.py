@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import (Customers, Orders, Products, CustomerAddresses, CartItems, Carts, Categories, Clerks, Colors, Deliveries, Drivers, Employees, Inventory, OrderItems, Permissions, Roles, Sellers, SellersAddresses, Stores, Verifications, ProductImages, SubCategories) # Add more as needed
+from core.models import (Customers, Orders, Products, CustomerAddresses, CartItems, Carts, Categories, Clerks, Colors, Deliveries, Drivers, Employees, Inventory, OrderItems, Permissions, Roles, Sellers, SellersAddresses, Stores, Verifications, ProductImages, SubCategories, ProductReviews) # Add more as needed
 
 
 admin.site.register(Customers)
@@ -24,6 +24,7 @@ admin.site.register(Stores)
 admin.site.register(Verifications)
 admin.site.register(ProductImages)
 admin.site.register(SubCategories)
+admin.site.register(ProductReviews)
 
 
 

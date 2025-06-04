@@ -7,8 +7,6 @@ class Stores(models.Model):
     country = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
     postal_code = models.CharField(max_length=50, blank=True, null=True)
-    # created_at = models.DateTimeField(blank=True, null=True)
-    # updated_at = models.DateTimeField(blank=True, null=True)
     store_logo = models.CharField(max_length=255, blank=True, null=True)
     payment_info = models.CharField(max_length=255, blank=True, null=True)
     website_url = models.CharField(max_length=255, blank=True, null=True)

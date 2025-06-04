@@ -16,52 +16,40 @@ export default function Navbar() {
 
   useEffect(() => {
     const checkSession = () => {
+      try {
         const token = localStorage.getItem('token');
         const storedCustomer = localStorage.getItem('customer');
         const loginTimestamp = localStorage.getItem('loginTimestamp');
 
-        console.log("Token1:", token);
-        console.log("Customer1:", storedCustomer);
-        console.log("LoginStamp1:", loginTimestamp);
-
-    
         if (token && storedCustomer && loginTimestamp) {
-          const oneDay = 24 * 60 * 60 * 1000;
+          const twoDays = 2 * 24 * 60 * 60 * 1000;
           const loggedInAt = parseInt(loginTimestamp);
           const now = Date.now();
-    
-          try {
+
+          if (now - loggedInAt < twoDays) {
             const parsedCustomer = JSON.parse(storedCustomer);
             if (parsedCustomer && typeof parsedCustomer === 'object') {
-                if (now - loggedInAt < oneDay) {
-                  setCustomer(parsedCustomer);
-                } else {
-                  localStorage.clear();
-                  setCustomer(null);
-                }
-              } else {
-                throw new Error('Parsed customer is not an object');
-              }
-          } catch (err) {
-            console.error('❌ Failed to parse customer');
-            localStorage.clear();
-            setCustomer(null);
+              setCustomer(parsedCustomer);
+              return;
+            }
           }
-        } else {
-          setCustomer(null);
         }
-      };
-    
-      // ✅ Run once
-      checkSession();
-    
-      // ✅ Run again when login fires `storage-update`
-      window.addEventListener('storage-update', checkSession);
-    
-      return () => {
-        window.removeEventListener('storage-update', checkSession);
-      };
-    }, []);
+
+        localStorage.clear();
+        setCustomer(null);
+      } catch (err) {
+        console.error('❌ Session check failed:', err);
+        localStorage.clear();
+        setCustomer(null);
+      }
+    };
+
+    checkSession();
+
+    // Allow other components to refresh session display
+    window.addEventListener('storage-update', checkSession);
+    return () => window.removeEventListener('storage-update', checkSession);
+  }, []);
 
   const handleSignOut = () => {
     localStorage.clear();
@@ -72,11 +60,8 @@ export default function Navbar() {
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        {/* Left - Logo & Links */}
         <div className="flex items-center gap-6">
-          <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">
-            Abrokyere
-          </Link>
+          <Link href="/" className="text-2xl font-bold text-gray-900 tracking-tight">Abrokyere</Link>
           <div className="hidden md:flex gap-4 text-sm text-gray-700 font-medium">
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
@@ -84,7 +69,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Right - Auth Info */}
         <div className="flex items-center gap-6 text-sm font-medium text-gray-700">
           {customer ? (
             <>
@@ -94,12 +78,7 @@ export default function Navbar() {
               </div>
               <Link href="/account" className="hover:underline">Account</Link>
               <Link href="/orders" className="hover:underline">Orders</Link>
-              <button
-                onClick={handleSignOut}
-                className="text-red-600 hover:underline"
-              >
-                Sign Out
-              </button>
+              <button onClick={handleSignOut} className="text-red-600 hover:underline">Sign Out</button>
             </>
           ) : (
             <>
@@ -112,3 +91,6 @@ export default function Navbar() {
     </nav>
   );
 }
+
+
+

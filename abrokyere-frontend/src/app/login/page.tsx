@@ -49,7 +49,7 @@ export default function LoginPage() {
         <div className="text-center mb-6">
           <h2 className="text-3xl font-bold text-gray-900">Login</h2>
           <p className="text-sm text-gray-500 mt-1">
-            Not sure if you have an account? Enter your email and we’ll check for you.
+            Not sure if you have an account? Enter your email and we'll check for you.
           </p>
         </div>
   
