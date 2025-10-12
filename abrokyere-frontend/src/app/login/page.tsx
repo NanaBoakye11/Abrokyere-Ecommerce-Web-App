@@ -26,6 +26,8 @@ export default function LoginPage() {
       // Store token in localStorage (or cookies if you prefer)
       localStorage.setItem('token', token);
       localStorage.setItem('customer', JSON.stringify(customer));
+      localStorage.setItem('customer_id', customer.customer_id.toString()); // Also store customer_id directly for convenience
+
 
       console.log('🧪 customer email value before saving:', customer.email);
       console.log('🧪 customer stringified First Name:', JSON.stringify(customer.first_name));

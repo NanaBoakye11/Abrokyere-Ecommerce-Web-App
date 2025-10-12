@@ -20,4 +20,5 @@ from .carts import Carts
 from .drivers import Drivers
 from .subcategories import SubCategories
 from .products_reviews import ProductReviews
-
+from .webhook_event_log import WebhookEventLog
+from .order_session_map import OrderSessionMap  # <-- add

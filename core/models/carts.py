@@ -1,5 +1,7 @@
 from django.db import models
 from core.models.base import TimeStampedModel
+from core.models.customers import Customers
+
 
 class Carts(models.Model):
     STATUS_CHOICES = [
@@ -8,7 +10,8 @@ class Carts(models.Model):
         ('abandoned', 'Abandoned'),
     ]
     cart_id = models.BigAutoField(primary_key=True)
-    customer = models.ForeignKey('Customers', models.DO_NOTHING, db_column='customer_id', null=True, blank=True)
+    customer = models.ForeignKey(Customers, models.DO_NOTHING, db_column='customer_id', null=True, blank=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True, unique=True, db_index=True) # <-- Add this manually
     total_qty = models.IntegerField(blank=True, null=True)
     total_amount = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active', db_index=True)
